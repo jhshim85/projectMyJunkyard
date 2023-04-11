@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Form, Button, Card, Alert } from 'react-bootstrap'
 import { Link } from 'react-router-dom';
 import { UserAuth } from '../contexts/AuthContext';
+import ContainerBox from './ContainerBox';
 
 const ForgotPassword = () => {
 
@@ -26,7 +27,7 @@ const ForgotPassword = () => {
   } 
 
   return (
-    <>
+    <ContainerBox>
       <Card>
         <Card.Body>
           <h2 className="text-center mb-4">Reset your password</h2>
@@ -47,7 +48,7 @@ const ForgotPassword = () => {
       <div className="w-100 text-center mt-2">
         Don't have an account yet? <Link to='/signup' className='underline'>Sign up</Link>
       </div>
-    </>
+    </ContainerBox>
   )
 }
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Button, Card, Alert } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom';
 import { UserAuth } from '../contexts/AuthContext';
+import ContainerBox from './ContainerBox';
 
 const Dashboard = () => {
 
@@ -25,7 +26,7 @@ const Dashboard = () => {
 
 
   return (
-    <>
+    <ContainerBox>
       <Card>
         <Card.Body>
           <h2 className="text-center font-bold mb-4">Account</h2>
@@ -39,7 +40,7 @@ const Dashboard = () => {
       {/* <Link to='/'>   */}
         <Button onClick={handleLogout} className="w-100 mt-4" type='submit'>Log Out</Button>
       {/* </Link> */}
-    </>
+    </ContainerBox>
   )
 }
 

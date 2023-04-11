@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Form, Button, Card, Alert } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom';
 import { UserAuth } from '../contexts/AuthContext';
+import ContainerBox from './ContainerBox';
 
 const SignUp = () => {
 
@@ -24,7 +25,7 @@ const SignUp = () => {
       setError('')
       setLoading(true)
       await createUser(email, password)
-      navigate('/account')
+      navigate('/')
     } catch {
       setError('Failed to create an account')
     }
@@ -32,7 +33,7 @@ const SignUp = () => {
   }
   
   return (
-    <>
+    <ContainerBox>
       <Card>
         <Card.Body>
           <h2 className="text-center mb-4">Sign up new account</h2>
@@ -57,7 +58,7 @@ const SignUp = () => {
       <div className="w-100 text-center mt-2">
         Already have an account? <Link to='/login' className='underline'>Log In</Link>
       </div>
-    </>
+    </ContainerBox>
   )
 }
 

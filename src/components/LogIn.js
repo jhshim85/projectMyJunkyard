@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Form, Button, Card, Alert } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import { UserAuth } from '../contexts/AuthContext';
+import ContainerBox from './ContainerBox';
 
 const LogIn = () => {
 
@@ -27,7 +28,7 @@ const LogIn = () => {
   } 
 
   return (
-    <>
+    <ContainerBox>
       <Card>
         <Card.Body>
           <h2 className="text-center mb-4">Log in to your account</h2>
@@ -51,7 +52,7 @@ const LogIn = () => {
       <div className="w-100 text-center mt-2">
         Don't have an account yet? <Link to='/signup' className='underline'>Sign up</Link>
       </div>
-    </>
+    </ContainerBox>
   )
 }
 
