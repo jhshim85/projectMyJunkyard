@@ -51,7 +51,7 @@ const UpdateAccount = () => {
     }
 
     Promise.all(promises).then(()=>{
-      navigate('/')
+      navigate('/account')
     }).catch(()=>{
       setError('Failed to update account')
     }).finally(()=>{
@@ -83,7 +83,7 @@ const UpdateAccount = () => {
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-2">
-        <Link to='/' className='underline'>Cancel</Link>
+        <Link to='/account' className='underline'>Cancel</Link>
       </div>
     </ContainerBox>
   )

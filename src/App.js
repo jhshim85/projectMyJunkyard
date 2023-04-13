@@ -7,14 +7,20 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import UpdateAccount from "./components/UpdateAccount";
 import { AuthContextProvider } from "./contexts/AuthContext";
 import { Routes, Route } from "react-router-dom";
+import Dashboard from "./components/Dashboard";
+import Folder from "./components/Folder";
+import NavMenu from "./components/NavMenu";
 
 function App() {
   return (
     <>
-      <h1 className='text-center font-bold text-uppercase'>Welcome to My Junkyard!</h1>
+      <NavMenu />
       <AuthContextProvider>
         <Routes>
-          <Route path='/'
+          <Route path='/' element={<ProtectedRoute><Dashboard/></ProtectedRoute>}></Route>
+          <Route path='/folder/:folderName' element={<ProtectedRoute><Folder/></ProtectedRoute>}></Route>
+
+          <Route path='/account'
             element={
             <ProtectedRoute><Account /></ProtectedRoute>
           }></Route>
@@ -22,6 +28,7 @@ function App() {
             element={
             <ProtectedRoute><UpdateAccount /></ProtectedRoute>
           }></Route>
+
           <Route path='/login' element={<LogIn />}></Route>
           <Route path='/signup' element={<SignUp />}></Route>
           <Route path='/forgot-password' element={<ForgotPassword />}></Route>

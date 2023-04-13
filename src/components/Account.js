@@ -4,14 +4,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { UserAuth } from '../contexts/AuthContext';
 import ContainerBox from './ContainerBox';
 
-const Dashboard = () => {
+const Account = () => {
 
   const [error, setError] = useState('');
 
   const {user, logout} = UserAuth();
 
   const navigate = useNavigate();
-
 
   const handleLogout = async () => {
     setError('')
@@ -44,4 +43,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default Account
