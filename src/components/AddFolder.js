@@ -34,7 +34,6 @@ const AddFolder = ({currentFolder}) => {
     const folderUpload = () => {
       addDoc(collectionRef, {
         name: folderName,
-        // parentId: currentFolder.id,
         userId: user.uid,
         createdAt: serverTimestamp()
       })
@@ -48,17 +47,6 @@ const AddFolder = ({currentFolder}) => {
     }
     folderUpload();
     setMessage('Folder Added')
-    // try {
-    //   const docRef = await addDoc(collection(db, 'folders'), {
-    //     name: folderName,
-    //     parentId: currentFolder.id,
-    //     userId: user.uid,
-    //     // path,
-    //     createdAt: serverTimestamp()
-    //   });
-    // } catch (e) {
-    //   console.log(e.message);
-    // }
   }
   useEffect(() => {
     const readData = () => {

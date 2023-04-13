@@ -17,22 +17,7 @@ const Folder = () => {
 
   const getFile = (e) => {
     const fileRef = ref(storage, e.target.files[0].name);
-    // getDownloadURL(fileRef)
-    //   .then((url)=>{
-    //     console.log(url);
-    //   })
-    //   .catch((e)=>{
-    //     switch (e.code) {
-    //       case 'storage/object-not-found':
-    //         break;
-    //       case 'storage/unauthorized':
-    //         break;
-    //       case 'storage/canceled':
-    //         break;
-    //       case 'storage/unkown':
-    //         break;
-    //     }
-    //   })
+
     const uploadTask = uploadBytesResumable(fileRef, e.target.files[0]);
 
     uploadTask.on('state_changed', 

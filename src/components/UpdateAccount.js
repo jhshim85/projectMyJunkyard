@@ -11,7 +11,6 @@ const UpdateAccount = () => {
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false)
-  // const [res, setRes] = useState()
 
   const { user, updateUserEmail, updateUserPassword } = UserAuth();
 
@@ -22,21 +21,6 @@ const UpdateAccount = () => {
     if (password !== passwordConfirm) {
       return setError('Passwords do not match')
     }
-    // try {
-    //   setError('')
-    //   setLoading(true)
-    // await updateEmail(email)
-    //   navigate('/')
-    // } catch {
-    //   setError('Failed to update an email')
-    // }
-    // setLoading(false)
-    // setRes()
-    // await updateEmail(email).then((res) => {
-    //   setRes('Email updated Successfully')
-    // }).catch ((err) => {
-    //   setError('failed to update an email')
-    // })
 
     const promises = []
 
