@@ -1,6 +1,6 @@
 import React from "react";
 import LogIn from "./components/LogIn";
-import SignUp from "./components/SignUp";
+
 import ForgotPassword from "./components/ForgotPassword";
 import Account from "./components/Account";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -30,7 +30,7 @@ function App() {
           }></Route>
 
           <Route path='/login' element={<LogIn />}></Route>
-          <Route path='/signup' element={<SignUp />}></Route>
+          {/* <Route path='/signup' element={<SignUp />}></Route> */}
           <Route path='/forgot-password' element={<ForgotPassword />}></Route>
         </Routes>
       </AuthContextProvider>
