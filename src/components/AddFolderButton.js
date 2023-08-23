@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react'
-import { Button, Modal, Form, Alert } from 'react-bootstrap'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFolderPlus, faFolderOpen } from '@fortawesome/free-solid-svg-icons'
-import { db } from '../firebase'
-import { addDoc, collection, serverTimestamp, onSnapshot } from 'firebase/firestore'
-import { UserAuth } from '../contexts/AuthContext'
-import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react';
+import { Button, Modal, Form, Alert } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFolderPlus, faFolderOpen } from '@fortawesome/free-solid-svg-icons';
+import { db } from '../firebase';
+import { addDoc, collection, serverTimestamp, onSnapshot } from 'firebase/firestore';
+import { UserAuth } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
-const AddFolder = ({currentFolder}) => {
+const AddFolderButton = ({currentFolder}) => {
 
   const [access, setAccess] = useState(false)
   const [folderName, setFolderName] = useState('')
@@ -32,10 +32,10 @@ const AddFolder = ({currentFolder}) => {
     if (currentFolder == null) return
 
     const folderUpload = () => {
-      addDoc(collectionRef, {
+      addDoc(collection(db, 'folders'), {
         name: folderName,
-        userId: user.uid,
-        createdAt: serverTimestamp()
+        // userId: user.uid,
+        // createdAt: serverTimestamp()
       })
       .then(() => {
         setFolderName('')
@@ -48,6 +48,7 @@ const AddFolder = ({currentFolder}) => {
     folderUpload();
     setMessage('Folder Added')
   }
+
   useEffect(() => {
     const readData = () => {
       onSnapshot(collectionRef, (data) => {
@@ -105,4 +106,4 @@ const AddFolder = ({currentFolder}) => {
   )
 }
 
-export default AddFolder
+export default AddFolderButton;

@@ -1,7 +1,7 @@
-import React from 'react'
-import { Container } from 'react-bootstrap'
-import AddFolder from './AddFolder'
-import { useFolder } from '../hooks/useFolder'
+import { Container } from 'react-bootstrap';
+import { useFolder } from '../hooks/useFolder';
+import AddFolderButton from './AddFolderButton';
+import AddFile from './AddFile';
 
 const Dashboard = () => {
 
@@ -10,10 +10,11 @@ const Dashboard = () => {
   return (
     <>
       <Container fluid>
-        <AddFolder currentFolder={folder}/>
+        <AddFile currentFolder={folder} />
+        <AddFolderButton currentFolder={folder} />
       </Container>
     </>
-  )
+  );
 }
 
 export default Dashboard

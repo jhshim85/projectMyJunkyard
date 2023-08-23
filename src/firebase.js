@@ -15,11 +15,26 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 // const firestore = getFirestore(app);
 // export const db = {
-  //   folders: collection(firestore, 'folders'),
-  //   files: collection(firestore, 'files')
-  // }
-  
-  export const auth = getAuth(app);
-  export const storage = getStorage(app);
-  export const db = getFirestore(app);
+//   folders: collection(firestore, 'folders'),
+//   files: collection(firestore, 'files')
+// }
+// export const db = {
+//   formatDoc: (doc) => {
+//     return {
+//       id: doc.id,
+//       ...doc.data(),
+//     };
+//   },
+//   folders: firestore.collection("folders"),
+//   files: firestore.collection("files"),
+// };
+
+export const auth = getAuth(app);
+export const storage = getStorage(app);
+export const db = getFirestore(app);
+// export const db = initializeFirestore(app, {
+//   experimentalForceLongPolling: true,
+//   useFetchStreams: false,
+// });
+
 export default app
