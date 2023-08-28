@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Form, Button, Card, Alert } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom';
-import { UserAuth } from '../contexts/AuthContext';
-import ContainerBox from './ContainerBox';
+import { UserAuth } from '../../contexts/AuthContext';
+import ContainerBox from "./ContainerBox";
 
 const UpdateAccount = () => {
 

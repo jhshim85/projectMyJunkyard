@@ -1,15 +1,14 @@
 import React from "react";
-import LogIn from "./components/LogIn";
-import SignUp from "./components/SignUp";
-import ForgotPassword from "./components/ForgotPassword";
-import Account from "./components/Account";
-import ProtectedRoute from "./components/ProtectedRoute";
-import UpdateAccount from "./components/UpdateAccount";
-import { AuthContextProvider } from "./contexts/AuthContext";
 import { Routes, Route } from "react-router-dom";
-import Dashboard from "./components/Dashboard";
-import Folder from "./components/Folder";
+import { AuthContextProvider } from "./contexts/AuthContext";
+import LogIn from "./components/authentication/LogIn";
+import SignUp from "./components/authentication/SignUp";
+import ForgotPassword from "./components/authentication/ForgotPassword";
+import Account from "./components/authentication/Account";
+import UpdateAccount from "./components/authentication/UpdateAccount";
+import ProtectedRoute from "./components/authentication/ProtectedRoute";
 import NavMenu from "./components/NavMenu";
+import Dashboard from "./components/Dashboard";
 
 function App() {
   return (
@@ -18,7 +17,7 @@ function App() {
       <AuthContextProvider>
         <Routes>
           <Route path='/' element={<ProtectedRoute><Dashboard/></ProtectedRoute>}></Route>
-          <Route path='/folder/:folderName' element={<ProtectedRoute><Folder/></ProtectedRoute>}></Route>
+          <Route path='/folder/:folderId' element={<ProtectedRoute><Dashboard/></ProtectedRoute>}></Route>
 
           <Route path='/account'
             element={

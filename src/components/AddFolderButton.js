@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Button, Modal, Form, Alert } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFolderPlus, faFolderOpen } from '@fortawesome/free-solid-svg-icons';
+import { faFolderPlus } from '@fortawesome/free-solid-svg-icons';
 import { db } from '../firebase';
 import { addDoc, collection, serverTimestamp, onSnapshot } from 'firebase/firestore';
 import { UserAuth } from '../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { ROOT_FOLDER } from '../hooks/useFolder';
 
 const AddFolderButton = ({currentFolder}) => {
 
@@ -31,11 +31,18 @@ const AddFolderButton = ({currentFolder}) => {
 
     if (currentFolder == null) return
 
+    const path = [...currentFolder.path]
+    if (currentFolder !== ROOT_FOLDER) {
+      path.push({name: currentFolder.name, id: currentFolder.id})
+    }
+
     const folderUpload = () => {
       addDoc(collection(db, 'folders'), {
         name: folderName,
-        // userId: user.uid,
-        // createdAt: serverTimestamp()
+        userId: user.uid,
+        parentId: currentFolder.id,
+        path: path,
+        createdAt: serverTimestamp()
       })
       .then(() => {
         setFolderName('')
@@ -59,12 +66,6 @@ const AddFolderButton = ({currentFolder}) => {
     }
     readData();
   }, [])
-  
-  const navigate = useNavigate();
-
-  const openFolder = (id) => {
-    navigate(`/folder/${id}`)
-  }
 
   return (
     <>
@@ -90,18 +91,6 @@ const AddFolderButton = ({currentFolder}) => {
           </Modal.Footer>
         </Form>
       </Modal>
-      {
-        folders.map((folder) => {
-          return (
-            <div className="d-inline-flex flex-row align-items-center" style={{marginRight: "10px", marginLeft: "10px"}} key={folder.id}>
-              <Button variant="outline-dark" className="text-truncate w-100" onClick={() => openFolder(folder.id)}>
-                <FontAwesomeIcon icon={faFolderOpen} style={{marginRight: "10px"}}/>
-                {folder.name}
-              </Button>
-            </div>
-          )
-      })
-      }
     </>
   )
 }

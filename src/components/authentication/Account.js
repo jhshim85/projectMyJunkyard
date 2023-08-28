@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Button, Card, Alert } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom';
-import { UserAuth } from '../contexts/AuthContext';
+import { UserAuth } from "../../contexts/AuthContext";
 import ContainerBox from './ContainerBox';
 
 const Account = () => {
