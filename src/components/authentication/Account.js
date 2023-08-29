@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { Button, Card, Alert } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom';
 import { UserAuth } from "../../contexts/AuthContext";
 import ContainerBox from './ContainerBox';
+import { Button, Card, Alert } from 'react-bootstrap'
 
 const Account = () => {
 
@@ -36,9 +36,7 @@ const Account = () => {
         </Link>
         </ Card.Body>
       </ Card>
-      {/* <Link to='/'>   */}
-        <Button onClick={handleLogout} className="w-100 mt-4" type='submit'>Log Out</Button>
-      {/* </Link> */}
+      <Button onClick={handleLogout} className="w-100 mt-4" type='submit'>Log Out</Button>
     </ContainerBox>
   )
 }

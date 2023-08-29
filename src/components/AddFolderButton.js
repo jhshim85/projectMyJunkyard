@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Button, Modal, Form, Alert } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFolderPlus } from '@fortawesome/free-solid-svg-icons';
 import { db } from '../firebase';
 import { addDoc, collection, serverTimestamp, onSnapshot } from 'firebase/firestore';
 import { UserAuth } from '../contexts/AuthContext';
 import { ROOT_FOLDER } from '../hooks/useFolder';
+import { Button, Modal, Form, Alert } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFolderPlus } from '@fortawesome/free-solid-svg-icons';
 
 const AddFolderButton = ({currentFolder}) => {
 
