@@ -11,6 +11,7 @@ const File = ({file}) => {
     >
       <FontAwesomeIcon icon={faFile} className="me-2" />
       {file.name}
+      <p>{file.id}</p>
     </a>
   );
 }

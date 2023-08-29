@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { v4 as uuidv4 } from "uuid";
 import { db, storage } from "../firebase";
 import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from "firebase/storage";
-import { addDoc, collection, serverTimestamp, onSnapshot, query, where, updateDoc, getDoc } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp, onSnapshot, query, where, updateDoc, getDoc, getDocs, doc } from 'firebase/firestore';
 import { UserAuth } from "../contexts/AuthContext";
 import { ROOT_FOLDER } from "../hooks/useFolder";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -83,12 +83,6 @@ const AddFileButton = ({ currentFolder }) => {
         });
       },
         () => {
-          setUploadingFiles(prevUploadingFiles => {
-            return prevUploadingFiles.filter(uploadFile => {
-              return uploadFile.id !== id
-            });
-          });
-
           getDownloadURL(uploadTask.snapshot.ref).then((url) => {
 
             const updateFile = async () => {
@@ -98,42 +92,35 @@ const AddFileButton = ({ currentFolder }) => {
                 where("userId", "==", user.uid),
                 where("folderId", "==", currentFolder.id)
               );
-              const dbGetDoc = await getDoc(dbQuery);
-              console.log(dbGetDoc);
-              // const existingFile = dbGetDoc.docs[0];
-              // console.log(existingFile);
-              // if (existingFile) {
-              //   updateDoc(dbQuery, { url: url });
-              // } else {
-              //   addDoc(collection(db, "files"), {
-              //     url: url,
-              //     name: file.name,
-              //     createdAt: serverTimestamp(),
-              //     folderId: currentFolder.id,
-              //     userId: user.uid,
-              //   });
-              // }
+
+              const dbGetDoc = (await getDocs(dbQuery)).docs;
+              
+              if (dbGetDoc.length > 0) {
+                alert ('Same file already existed')
+
+                setUploadingFiles((prevUploadingFiles) => {
+                  return prevUploadingFiles.map((uploadFile) => {
+                    return { ...uploadFile, error: true };
+                  });
+                });
+              } else {
+                setUploadingFiles((prevUploadingFiles) => {
+                  return prevUploadingFiles.filter((uploadFile) => {
+                    return uploadFile.id !== id;
+                  });
+                });
+
+                addDoc(collection(db, "files"), {
+                  url: url,
+                  name: file.name,
+                  createdAt: serverTimestamp(),
+                  folderId: currentFolder.id,
+                  userId: user.uid,
+                });
+                console.log('new file added');
+              }
             }
             updateFile();
-            // updateDoc(dbQuery, {url: url})
-            // .then( existingFiles => {
-            //   console.log('updated');
-            //   const existingFile = existingFiles.docs[0]
-            //   if (existingFile) {
-                
-            //   }
-            // })
-            // .catch(e => {
-            //   console.log(e);
-            // })
-
-            // addDoc(collection(db, 'files'), {
-            //   url: url,
-            //   name: file.name,
-            //   createdAt: serverTimestamp(),
-            //   folderId: currentFolder.id,
-            //   userId: user.uid
-            // })
             console.log('File available at', url);
           })
         }
