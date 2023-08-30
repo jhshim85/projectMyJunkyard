@@ -29,12 +29,12 @@ const AddFolderButton = ({currentFolder}) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (currentFolder == null) return
+    if (currentFolder == null) return;
 
-    const path = [...currentFolder.path]
+    const path = [...currentFolder.path];
     if (currentFolder !== ROOT_FOLDER) {
       path.push({name: currentFolder.name, id: currentFolder.id})
-    }
+    };
 
     const folderUpload = () => {
       addDoc(collection(db, 'folders'), {
@@ -69,8 +69,8 @@ const AddFolderButton = ({currentFolder}) => {
 
   return (
     <>
-      <Button onClick={openModal} variant='outline-success' size='lg'>
-        <FontAwesomeIcon icon={faFolderPlus} />
+      <Button onClick={openModal} variant="outline-success" size="lg">
+        <FontAwesomeIcon icon={faFolderPlus} style={{ marginRight: "5px" }} /> Add Folder
       </Button>
       <Modal show={access} onHide={closeModal}>
         {message && <Alert variant="success">{message}</Alert>}
@@ -78,21 +78,26 @@ const AddFolderButton = ({currentFolder}) => {
           <Modal.Body>
             <Form.Group>
               <Form.Label>Folder Name</Form.Label>
-              <Form.Control type='text' required value={folderName} onChange={(e)=>setFolderName(e.target.value)}/>
+              <Form.Control
+                type="text"
+                required
+                value={folderName}
+                onChange={(e) => setFolderName(e.target.value)}
+              />
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant='secondary' onClick={closeModal}>
+            <Button variant="secondary" onClick={closeModal}>
               Close
             </Button>
-            <Button variant='success' type='submit'>
+            <Button variant="success" type="submit">
               Add Folder
             </Button>
           </Modal.Footer>
         </Form>
       </Modal>
     </>
-  )
+  );
 }
 
 export default AddFolderButton;

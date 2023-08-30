@@ -2,17 +2,17 @@ import { useState } from "react";
 import { createPortal } from "react-dom";
 import { v4 as uuidv4 } from "uuid";
 import { db, storage } from "../firebase";
-import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from "firebase/storage";
-import { addDoc, collection, serverTimestamp, onSnapshot, query, where, updateDoc, getDoc, getDocs, doc } from 'firebase/firestore';
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { addDoc, collection, serverTimestamp, query, where, getDocs } from 'firebase/firestore';
 import { UserAuth } from "../contexts/AuthContext";
 import { ROOT_FOLDER } from "../hooks/useFolder";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileUpload } from "@fortawesome/free-solid-svg-icons";
-import { ProgressBar, Toast } from "react-bootstrap";
+import { Alert, ProgressBar, Toast } from "react-bootstrap";
 
 const AddFileButton = ({ currentFolder }) => {
 
-  const [ uploadingFiles, setUploadingFiles ] = useState([])
+  const [ uploadingFiles, setUploadingFiles ] = useState([]);
 
   const { user } = UserAuth();
 
@@ -46,7 +46,6 @@ const AddFileButton = ({ currentFolder }) => {
       currentFolder === ROOT_FOLDER
         ? `${parentPath}/${file.name}`
         : `${parentPath}/${currentFolder.name}/${file.name}`;
-    console.log(filePath);
 
     const storageRef = ref(storage, `/files/${user.uid}/${filePath}`)
     const uploadTask = uploadBytesResumable(storageRef, file)
@@ -63,13 +62,9 @@ const AddFileButton = ({ currentFolder }) => {
             return uploadFile
           })
         })
-        switch (snapshot.state) {
-          case 'paused':
-            console.log('Upload is paused');
-            break;
-          case 'running':
-            console.log('Upload is running');
-            break;
+
+        if (snapshot.state === "paused") {
+          alert("Upload is paused");
         }
       }, (e) => {
         console.log(e.message);
@@ -85,7 +80,7 @@ const AddFileButton = ({ currentFolder }) => {
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((url) => {
 
-            const updateFile = async () => {
+            const uploadFile = async () => {
               const dbQuery = query(
                 collection(db, "files"),
                 where("name", "==", file.name),
@@ -96,7 +91,6 @@ const AddFileButton = ({ currentFolder }) => {
               const dbGetDoc = (await getDocs(dbQuery)).docs;
               
               if (dbGetDoc.length > 0) {
-                alert ('Same file already existed')
 
                 setUploadingFiles((prevUploadingFiles) => {
                   return prevUploadingFiles.map((uploadFile) => {
@@ -116,12 +110,11 @@ const AddFileButton = ({ currentFolder }) => {
                   createdAt: serverTimestamp(),
                   folderId: currentFolder.id,
                   userId: user.uid,
+                  size: file.size,
                 });
-                console.log('new file added');
               }
             }
-            updateFile();
-            console.log('File available at', url);
+            uploadFile();
           })
         }
       )
@@ -130,51 +123,69 @@ const AddFileButton = ({ currentFolder }) => {
   return (
     <>
       <label className="btn btn-outline-success btn-lg m-0 mr-2">
-        <FontAwesomeIcon icon={faFileUpload} />
+        <FontAwesomeIcon icon={faFileUpload} style={{marginRight: "5px"}}/> Add File
         <input
-          type="file" onChange={handleUpload}
+          type="file"
+          onChange={handleUpload}
           style={{ opacity: 0, position: "absolute", left: "-99999px" }}
         />
       </label>
-      {
-        uploadingFiles.length > 0 &&
+      {uploadingFiles.length > 0 &&
         createPortal(
-          <div style={{position: 'absolute', bottom: '1rem', right: '1rem', maxWidth: '250px'}}>
-            {
-              uploadingFiles.map((file) => {
-                return (
-                  <Toast key={file.id}
-                    onClose={() => {
-                      setUploadingFiles((prevUploadingFiles) => {
-                        return prevUploadingFiles.filter((uploadFile) => {
-                          return uploadFile.id !== file.id;
-                        });
+          <div
+            style={{
+              position: "absolute",
+              bottom: "1rem",
+              right: "1rem",
+              maxWidth: "250px",
+            }}
+          >
+            {uploadingFiles.map((file) => {
+              return (
+                <Toast
+                  key={file.id}
+                  onClose={() => {
+                    setUploadingFiles((prevUploadingFiles) => {
+                      return prevUploadingFiles.filter((uploadFile) => {
+                        return uploadFile.id !== file.id;
                       });
-                    }}
-                  >
-                    <Toast.Header className="text-truncate w-100 d-block">
-                      {file.name}
-                    </Toast.Header>
-                    <Toast.Body>
-                      <ProgressBar
-                        animated={!file.error}
-                        variant={file.error ? 'danger' : 'primary'}
-                        now={file.error ? 100 : file.progress * 100}
-                        label={
-                          file.error
-                            ? "Error"
-                            : `${Math.round(file.progress * 100)}%`
-                        }
-                      />
-                    </Toast.Body>
-                  </Toast>
-                )
-              })
-            }
-          </div>
-          ,document.body
-        )
-      }
+                    });
+                  }}
+                >
+                  <Toast.Header className="text-truncate w-100 d-block">
+                    {file.name}
+                  </Toast.Header>
+                  <Toast.Body>
+                    <ProgressBar
+                      animated={!file.error}
+                      variant={file.error ? "danger" : "primary"}
+                      now={file.error ? 100 : file.progress * 100}
+                      label={
+                        file.error
+                          ? "Error"
+                          : `${Math.round(file.progress * 100)}%`
+                      }
+                    />
+                    {!file.error ? (
+                      <div style={{ maxWidth: "250px" }}>
+                        <Alert className="alert alert-primary" role="alert">
+                          Uploading a file...
+                        </Alert>
+                      </div>
+                    ) : (
+                      <div style={{ maxWidth: "250px" }}>
+                        <Alert className="alert alert-danger" role="alert">
+                          Same file is already existed!
+                        </Alert>
+                      </div>
+                    )}
+                  </Toast.Body>
+                </Toast>
+              );
+            })}
+          </div>,
+          document.body
+        )}
     </>
   );
 };
