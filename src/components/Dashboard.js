@@ -15,7 +15,7 @@ const Dashboard = () => {
     <>
       <Container fluid>
         <div
-          className="d-flex align-items-center justify-content-between gap-3"
+          className="d-flex align-items-center justify-content-between gap-3 mx-5"
           style={{ marginTop: "10px" }}
         >
           <FolderBreadcrumbs currentFolder={folder} />
@@ -23,7 +23,7 @@ const Dashboard = () => {
           <AddFolderButton currentFolder={folder} />
         </div>
         {childFolders.length > 0 ? (
-          <>
+          <div className='mx-5'>
             <Badge className="bg-secondary mb-3">
               <p
                 style={{
@@ -48,28 +48,30 @@ const Dashboard = () => {
                 </div>
               ))}
             </div>
-          </>
+          </div>
         ) : null}
         {childFolders.length > 0 && childFiles.length > 0 && (
           <>
             <hr />
-            <Badge className="bg-secondary mb-3">
-              <p
-                style={{
-                  textTransform: "uppercase",
-                  display: "inline-block",
-                  margin: 0,
-                  padding: "10px",
-                  fontSize: "15px",
-                }}
-              >
-                <span>Files</span>
-              </p>
-            </Badge>
+            <div className="mx-5">
+              <Badge className="bg-secondary mb-3">
+                <p
+                  style={{
+                    textTransform: "uppercase",
+                    display: "inline-block",
+                    margin: 0,
+                    padding: "10px",
+                    fontSize: "15px",
+                  }}
+                >
+                  <span>Files</span>
+                </p>
+              </Badge>
+            </div>
           </>
         )}
         {childFiles.length > 0 ? (
-          <div className="d-flex flex-wrap">
+          <div className="d-flex flex-wrap mx-5">
             {childFiles.map((childFile) => (
               <div
                 key={childFile.id}
